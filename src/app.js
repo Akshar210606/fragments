@@ -4,6 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 const passport = require("passport");
+<<<<<<< HEAD
 const authenticate = require("./auth");
 
 if (process.env.LOG_LEVEL === "debug") {
@@ -50,10 +51,33 @@ if (process.env.NODE_ENV === "test") {
 }
 
 // ✅ 404 handler using createErrorResponse()
+=======
+
+const routes = require("./routes"); // health at "/"
+const auth = require("./auth"); // strategy switcher
+
+const app = express();
+
+app.use(helmet());
+app.use(compression());
+app.use(cors({ origin: true, credentials: true }));
+
+passport.use(auth.strategy());
+app.use(passport.initialize());
+
+// Public health
+app.use("/", routes);
+
+// Secure API
+app.use("/v1", auth.authenticate(), require("./routes/api"));
+
+const { createErrorResponse } = require("./response");
+>>>>>>> dcb2e7b (Assignment 1)
 app.use((req, res) => {
   res.status(404).json(createErrorResponse(404, "not found"));
 });
 
+<<<<<<< HEAD
 // ✅ Error-handling middleware using createErrorResponse()
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
@@ -65,6 +89,14 @@ app.use((err, req, res, next) => {
   }
 
   res.status(status).json(createErrorResponse(status, message));
+=======
+app.use((err, req, res, next) => {
+  res
+    .status(err.status || 500)
+    .json(
+      createErrorResponse(err.status || 500, err.message || "server error")
+    );
+>>>>>>> dcb2e7b (Assignment 1)
 });
 
 module.exports = app;

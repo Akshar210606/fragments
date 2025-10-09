@@ -1,5 +1,6 @@
 // src/auth/index.js
 
+<<<<<<< HEAD
 // Make sure our env isn't configured for both AWS Cognito and HTTP Basic Auth.
 // We can only do one or the other.  If your .env file contains all 3 of these
 // variables, something is wrong.  It should have AWS_COGNITO_POOL_ID and
@@ -26,3 +27,14 @@ else if (process.env.HTPASSWD_FILE && process.NODE_ENV !== "production") {
 else {
   throw new Error("missing env vars: no authorization configuration found");
 }
+=======
+// Default to basic for local/dev unless explicitly set to "cognito"
+const STRATEGY = (process.env.AUTH_STRATEGY || "basic").toLowerCase();
+
+if (STRATEGY === "cognito") {
+  // Only load the cognito module when requested so we don't need aws-jwt-verify in dev
+  module.exports = require("./cognito");
+} else {
+  module.exports = require("./basic-auth");
+}
+>>>>>>> dcb2e7b (Assignment 1)
