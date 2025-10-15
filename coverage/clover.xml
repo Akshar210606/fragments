@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1759982313319" clover="3.2.0">
+  <project timestamp="1759982313319" name="All files">
+    <metrics statements="272" coveredstatements="238" conditionals="155" coveredconditionals="109" methods="50" coveredmethods="44" elements="477" coveredelements="391" complexity="0" loc="272" ncloc="272" packages="7" files="17" classes="17"/>
+    <package name="src">
+      <metrics statements="46" coveredstatements="38" conditionals="18" coveredconditionals="5" methods="9" coveredmethods="4"/>
+      <file name="app.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\app.js">
+        <metrics statements="21" coveredstatements="20" conditionals="6" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="26" count="4" type="stmt"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="39" count="4" type="stmt"/>
+      </file>
+      <file name="hash.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\hash.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="16" count="5" type="stmt"/>
+        <line num="22" count="5" type="stmt"/>
+        <line num="23" count="6" type="stmt"/>
+      </file>
+      <file name="index.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\index.js">
+        <metrics statements="12" coveredstatements="7" conditionals="6" coveredconditionals="3" methods="3" coveredmethods="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="7" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="10" count="1" type="cond" truecount="2" falsecount="2"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+      </file>
+      <file name="logger.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\logger.js">
+        <metrics statements="4" coveredstatements="3" conditionals="4" coveredconditionals="2" methods="0" coveredmethods="0"/>
+        <line num="4" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="7" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+      </file>
+      <file name="response.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\response.js">
+        <metrics statements="6" coveredstatements="5" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="2"/>
+        <line num="11" count="5" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="30" count="5" type="stmt"/>
+        <line num="31" count="5" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
+        <line num="41" count="8" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.auth">
+      <metrics statements="65" coveredstatements="53" conditionals="30" coveredconditionals="19" methods="9" coveredmethods="9"/>
+      <file name="auth-middleware.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\auth\auth-middleware.js">
+        <metrics statements="15" coveredstatements="13" conditionals="4" coveredconditionals="3" methods="3" coveredmethods="3"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="21" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="27" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="32" count="3" type="stmt"/>
+        <line num="33" count="3" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+        <line num="41" count="5" type="stmt"/>
+      </file>
+      <file name="basic-auth.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\auth\basic-auth.js">
+        <metrics statements="46" coveredstatements="37" conditionals="22" coveredconditionals="14" methods="6" coveredmethods="6"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="13" count="6" type="stmt"/>
+        <line num="14" count="6" type="cond" truecount="4" falsecount="0"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="26" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="28" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="30" count="3" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="49" count="4" type="stmt"/>
+        <line num="51" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="53" count="2" type="stmt"/>
+        <line num="54" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="56" count="2" type="stmt"/>
+        <line num="57" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="60" count="2" type="stmt"/>
+        <line num="61" count="2" type="stmt"/>
+        <line num="64" count="4" type="stmt"/>
+        <line num="65" count="4" type="stmt"/>
+        <line num="66" count="4" type="stmt"/>
+        <line num="67" count="4" type="stmt"/>
+        <line num="68" count="4" type="stmt"/>
+        <line num="69" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="70" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="71" count="3" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="78" count="4" type="stmt"/>
+      </file>
+      <file name="index.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\auth\index.js">
+        <metrics statements="4" coveredstatements="3" conditionals="4" coveredconditionals="2" methods="0" coveredmethods="0"/>
+        <line num="4" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="6" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.model">
+      <metrics statements="44" coveredstatements="43" conditionals="40" coveredconditionals="36" methods="12" coveredmethods="12"/>
+      <file name="fragment.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\model\fragment.js">
+        <metrics statements="44" coveredstatements="43" conditionals="40" coveredconditionals="36" methods="12" coveredmethods="12"/>
+        <line num="3" count="5" type="stmt"/>
+        <line num="5" count="5" type="stmt"/>
+        <line num="15" count="5" type="stmt"/>
+        <line num="20" count="33" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="31" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="30" type="cond" truecount="2" falsecount="0"/>
+        <line num="25" count="29" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="28" type="cond" truecount="2" falsecount="0"/>
+        <line num="30" count="27" type="cond" truecount="2" falsecount="0"/>
+        <line num="31" count="27" type="stmt"/>
+        <line num="32" count="27" type="stmt"/>
+        <line num="33" count="27" type="cond" truecount="2" falsecount="0"/>
+        <line num="34" count="27" type="cond" truecount="2" falsecount="0"/>
+        <line num="35" count="27" type="cond" truecount="2" falsecount="0"/>
+        <line num="45" count="4" type="stmt"/>
+        <line num="49" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="53" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="59" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="69" count="5" type="stmt"/>
+        <line num="70" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="72" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="73" count="4" type="stmt"/>
+        <line num="83" count="1" type="stmt"/>
+        <line num="92" count="7" type="stmt"/>
+        <line num="94" count="7" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+        <line num="112" count="9" type="cond" truecount="4" falsecount="0"/>
+        <line num="113" count="1" type="stmt"/>
+        <line num="116" count="8" type="stmt"/>
+        <line num="119" count="8" type="stmt"/>
+        <line num="120" count="8" type="stmt"/>
+        <line num="123" count="8" type="stmt"/>
+        <line num="132" count="5" type="stmt"/>
+        <line num="133" count="5" type="stmt"/>
+        <line num="141" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="150" count="1" type="stmt"/>
+        <line num="159" count="38" type="cond" truecount="3" falsecount="1"/>
+        <line num="160" count="38" type="stmt"/>
+        <line num="161" count="38" type="stmt"/>
+        <line num="163" count="38" type="stmt"/>
+        <line num="165" count="0" type="stmt"/>
+        <line num="170" count="5" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.model.data">
+      <metrics statements="1" coveredstatements="1" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
+      <file name="index.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\model\data\index.js">
+        <metrics statements="1" coveredstatements="1" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
+        <line num="6" count="5" type="cond" truecount="1" falsecount="1"/>
+      </file>
+    </package>
+    <package name="src.model.data.memory">
+      <metrics statements="46" coveredstatements="46" conditionals="29" coveredconditionals="28" methods="13" coveredmethods="13"/>
+      <file name="index.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\model\data\memory\index.js">
+        <metrics statements="20" coveredstatements="20" conditionals="7" coveredconditionals="6" methods="7" coveredmethods="7"/>
+        <line num="1" count="5" type="stmt"/>
+        <line num="4" count="5" type="stmt"/>
+        <line num="5" count="5" type="stmt"/>
+        <line num="11" count="15" type="stmt"/>
+        <line num="12" count="15" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
+        <line num="21" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="26" count="8" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="36" count="4" type="stmt"/>
+        <line num="39" count="4" type="cond" truecount="4" falsecount="0"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="44" count="3" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="57" count="5" type="stmt"/>
+        <line num="58" count="5" type="stmt"/>
+        <line num="59" count="5" type="stmt"/>
+        <line num="60" count="5" type="stmt"/>
+        <line num="61" count="5" type="stmt"/>
+        <line num="62" count="5" type="stmt"/>
+      </file>
+      <file name="memory-db.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\model\data\memory\memory-db.js">
+        <metrics statements="26" coveredstatements="26" conditionals="22" coveredconditionals="22" methods="6" coveredmethods="6"/>
+        <line num="1" count="123" type="stmt"/>
+        <line num="6" count="22" type="stmt"/>
+        <line num="16" count="18" type="cond" truecount="4" falsecount="0"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="22" count="15" type="stmt"/>
+        <line num="23" count="15" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="15" type="stmt"/>
+        <line num="34" count="37" type="cond" truecount="4" falsecount="0"/>
+        <line num="35" count="3" type="stmt"/>
+        <line num="40" count="34" type="stmt"/>
+        <line num="42" count="34" type="cond" truecount="2" falsecount="0"/>
+        <line num="44" count="34" type="stmt"/>
+        <line num="45" count="34" type="stmt"/>
+        <line num="55" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="56" count="2" type="stmt"/>
+        <line num="62" count="6" type="stmt"/>
+        <line num="63" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="64" count="6" type="stmt"/>
+        <line num="74" count="7" type="cond" truecount="4" falsecount="0"/>
+        <line num="75" count="3" type="stmt"/>
+        <line num="81" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="82" count="1" type="stmt"/>
+        <line num="87" count="3" type="stmt"/>
+        <line num="88" count="3" type="stmt"/>
+        <line num="89" count="3" type="stmt"/>
+        <line num="93" count="6" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.routes">
+      <metrics statements="18" coveredstatements="18" conditionals="14" coveredconditionals="7" methods="2" coveredmethods="2"/>
+      <file name="index.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\routes\index.js">
+        <metrics statements="18" coveredstatements="18" conditionals="14" coveredconditionals="7" methods="2" coveredmethods="2"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="10" count="4" type="cond" truecount="3" falsecount="3"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="13" count="4" type="cond" truecount="2" falsecount="2"/>
+        <line num="16" count="4" type="cond" truecount="2" falsecount="2"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="22" count="4" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="26" count="4" type="stmt"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="39" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.routes.api">
+      <metrics statements="52" coveredstatements="39" conditionals="22" coveredconditionals="13" methods="5" coveredmethods="4"/>
+      <file name="get-id.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\routes\api\get-id.js">
+        <metrics statements="13" coveredstatements="3" conditionals="4" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+      </file>
+      <file name="get.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\routes\api\get.js">
+        <metrics statements="7" coveredstatements="7" conditionals="6" coveredconditionals="5" methods="1" coveredmethods="1"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="7" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="12" count="1" type="cond" truecount="1" falsecount="1"/>
+      </file>
+      <file name="index.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\routes\api\index.js">
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+      </file>
+      <file name="post.js" path="C:\Users\aksha\OneDrive\Desktop\Seneca\Assignments\Sem6\CCP\fragments\src\routes\api\post.js">
+        <metrics statements="26" coveredstatements="23" conditionals="12" coveredconditionals="8" methods="3" coveredmethods="3"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="28" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="47" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
