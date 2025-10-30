@@ -41,8 +41,7 @@ app.use((req, res) => {
   res.status(404).json(createErrorResponse(404, "not found"));
 });
 
-// === Global Error Handler ===
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   res
     .status(err.status || 500)
     .json(
