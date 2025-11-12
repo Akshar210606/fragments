@@ -1,4 +1,3 @@
-// src/routes/api/post.js
 const express = require("express");
 const contentType = require("content-type");
 const { Fragment } = require("../../model/fragment");
@@ -37,7 +36,10 @@ module.exports = [
     }
 
     try {
-      const ownerId = req.userId || req.user;
+      // ✅ FIX: Always convert user ID to string
+      // Cognito attaches user info under req.user (an object with sub, email, etc.)
+      const ownerId = String(req.user?.sub || req.user?.email || req.user);
+
       const frag = new Fragment({ ownerId, type });
       await frag.setData(req.body);
 
@@ -53,7 +55,6 @@ module.exports = [
       res.status(201).json(
         createSuccessResponse({
           id: frag.id,
-
           fragment: {
             id: frag.id,
             ownerId: frag.ownerId,
@@ -65,6 +66,7 @@ module.exports = [
         })
       );
     } catch (e) {
+      console.error("❌ Error creating fragment:", e);
       res
         .status(500)
         .json(createErrorResponse(500, e.message || "server error"));

@@ -120,7 +120,7 @@ class Fragment {
     this.updated = new Date().toISOString();
 
     // Persist metadata
-    await writeFragment(this);
+    await writeFragmentData(String(this.ownerId), this.id, data);
   }
 
   /**
@@ -159,8 +159,7 @@ class Fragment {
     if (!value || typeof value !== "string") return false;
     try {
       const { type } = contentType.parse(value);
-      // Only support text/* for now
-      return type.startsWith("text/");
+      return type.startsWith("text/") || type === "application/json";
     } catch {
       return false;
     }

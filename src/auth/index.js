@@ -1,11 +1,24 @@
 // src/auth/index.js
+const passport = require("passport");
 
-// Default to basic for local/dev unless explicitly set to "cognito"
 const STRATEGY = (process.env.AUTH_STRATEGY || "basic").toLowerCase();
+let strategyModule;
+let strategyName;
 
 if (STRATEGY === "cognito") {
-  // Only load the cognito module when requested so we don't need aws-jwt-verify in dev
-  module.exports = require("./cognito");
+  console.log("✅ Using Cognito authentication strategy");
+  strategyModule = require("./cognito");
+  strategyName = "bearer";
 } else {
-  module.exports = require("./basic-auth");
+  console.log("✅ Using Basic authentication strategy");
+  strategyModule = require("./basic-auth");
+  strategyName = "basic";
 }
+
+// ✅ Register strategy instance with Passport
+passport.use(strategyName, strategyModule.strategy);
+
+// ✅ Export middleware
+module.exports = {
+  authenticate: () => passport.authenticate(strategyName, { session: false }),
+};

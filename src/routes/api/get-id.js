@@ -1,23 +1,18 @@
 // src/routes/api/get-id.js
+
 const { Fragment } = require("../../model/fragment");
-const { createErrorResponse } = require("../../response");
 
 module.exports = async (req, res) => {
-  const ownerId = req.userId || req.user;
-  const { id } = req.params;
-
-  let frag;
   try {
-    frag = await Fragment.byId(ownerId, id);
-  } catch {
-    return res.status(404).json(createErrorResponse(404, "not found"));
-  }
+    const fragment = await Fragment.byId(req.user, req.params.id);
+    const data = await fragment.getData();
 
-  const data = await frag.getData();
-  if (!data) {
-    return res.status(404).json(createErrorResponse(404, "not found"));
+    res.setHeader("Content-Type", fragment.type);
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(404).json({
+      status: "error",
+      error: { code: 404, message: "not found" },
+    });
   }
-
-  res.setHeader("Content-Type", frag.type);
-  res.status(200).send(data);
 };
