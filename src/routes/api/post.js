@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const contentType = require("content-type");
 const { Fragment } = require("../../model/fragment");
 const {
@@ -6,70 +7,62 @@ const {
   createSuccessResponse,
 } = require("../../response");
 
-// Raw body for only supported types, up to 5MB
 const rawBody = () =>
   express.raw({
     inflate: true,
     limit: "5mb",
     type: (req) => {
       try {
-        const { type } = contentType.parse(req);
-        return Fragment.isSupportedType(type);
+        const header = req.headers["content-type"] || "";
+        const { type } = contentType.parse(header);
+        const baseType = type.split(";")[0].trim();
+        return Fragment.isSupportedType(baseType);
       } catch {
         return false;
       }
     },
   });
 
-module.exports = [
-  rawBody(),
-  async (req, res) => {
+router.post("/", rawBody(), async (req, res) => {
+  try {
     if (!Buffer.isBuffer(req.body)) {
       return res
         .status(415)
         .json(createErrorResponse(415, "unsupported content type"));
     }
 
-    const { type } = contentType.parse(req);
-    if (!Fragment.isSupportedType(type)) {
+    const { type } = contentType.parse(req.headers["content-type"]);
+    const baseType = type.split(";")[0].trim();
+
+    if (!Fragment.isSupportedType(baseType)) {
       return res.status(415).json(createErrorResponse(415, "unsupported type"));
     }
 
-    try {
-      // ✅ FIX: Always convert user ID to string
-      // Cognito attaches user info under req.user (an object with sub, email, etc.)
-      const ownerId = String(req.user?.sub || req.user?.email || req.user);
+    const ownerId = req.user.id;
 
-      const frag = new Fragment({ ownerId, type });
-      await frag.setData(req.body);
+    const frag = new Fragment({ ownerId, type: baseType });
+    await frag.setData(req.body);
 
-      // Build absolute Location header
-      const host = req.headers.host;
-      const base =
-        process.env.API_URL ||
-        (host ? `http://${host}` : "http://localhost:8080");
+    const host = req.headers.host;
+    const location = `http://${host}/v1/fragments/${frag.id}`;
+    res.setHeader("Location", location);
 
-      const location = `${base.replace(/\/$/, "")}/v1/fragments/${frag.id}`;
-
-      res.setHeader("Location", location);
-      res.status(201).json(
-        createSuccessResponse({
+    res.status(201).json(
+      createSuccessResponse({
+        fragment: {
           id: frag.id,
-          fragment: {
-            id: frag.id,
-            ownerId: frag.ownerId,
-            type: frag.type,
-            size: frag.size,
-            created: frag.created,
-            updated: frag.updated,
-          },
-        })
-      );
-    } catch (e) {
-      console.error("❌ Error creating fragment:", e);
-      res
-        .status(500)
-        .json(createErrorResponse(500, e.message || "server error"));
-    }
-  },
-];
+          ownerId: frag.ownerId,
+          type: frag.type,
+          size: frag.size,
+          created: frag.created,
+          updated: frag.updated,
+        },
+      })
+    );
+  } catch (err) {
+    console.error("POST /v1/fragments error:", err);
+    res.status(500).json(createErrorResponse(500, "server error"));
+  }
+});
+
+module.exports = router;

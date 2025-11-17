@@ -5,8 +5,9 @@ const helmet = require("helmet");
 const compression = require("compression");
 const passport = require("passport");
 
-const auth = require("./auth");
+const { authenticate } = require("./auth");
 const apiRoutes = require("./routes/api");
+const { createErrorResponse } = require("./response");
 
 const app = express();
 
@@ -14,6 +15,7 @@ const app = express();
 app.use(helmet());
 app.use(compression());
 app.use(cors({ origin: true, credentials: true }));
+//app.use(express.json());
 
 // === Passport setup ===
 app.use(passport.initialize());
@@ -29,17 +31,17 @@ app.get(["/health", "/v1/health", "/"], (req, res) => {
 });
 
 // === Secure API Routes ===
-// Protect all /v1 endpoints using chosen auth strategy
-app.use("/v1", auth.authenticate(), apiRoutes);
+// ✅ IMPORTANT: pass authenticate as middleware (DON'T CALL IT)
+app.use("/v1", authenticate, apiRoutes);
 
 // === 404 Handler ===
-const { createErrorResponse } = require("./response");
 app.use((req, res) => {
   res.status(404).json(createErrorResponse(404, "not found"));
 });
 
 // === Error Handler ===
-app.use((err, req, res) => {
+// note: 4 args, or Express won't treat it as an error handler
+app.use((err, req, res, next) => {
   res
     .status(err.status || 500)
     .json(

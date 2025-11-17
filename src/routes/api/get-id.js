@@ -1,10 +1,10 @@
-// src/routes/api/get-id.js
-
+const express = require("express");
+const router = express.Router();
 const { Fragment } = require("../../model/fragment");
 
-module.exports = async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const fragment = await Fragment.byId(req.user, req.params.id);
+    const fragment = await Fragment.byId(req.user.id, req.params.id);
     const data = await fragment.getData();
 
     res.setHeader("Content-Type", fragment.type);
@@ -15,4 +15,6 @@ module.exports = async (req, res) => {
       error: { code: 404, message: "not found" },
     });
   }
-};
+});
+
+module.exports = router;
