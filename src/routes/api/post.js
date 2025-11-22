@@ -1,67 +1,51 @@
 const express = require("express");
 const router = express.Router();
-const contentType = require("content-type");
 const { Fragment } = require("../../model/fragment");
-const {
-  createErrorResponse,
-  createSuccessResponse,
-} = require("../../response");
 
-const rawBody = () =>
-  express.raw({
-    inflate: true,
-    limit: "5mb",
-    type: (req) => {
-      try {
-        const header = req.headers["content-type"] || "";
-        const { type } = contentType.parse(header);
-        const baseType = type.split(";")[0].trim();
-        return Fragment.isSupportedType(baseType);
-      } catch {
-        return false;
-      }
-    },
-  });
-
-router.post("/", rawBody(), async (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    if (!Buffer.isBuffer(req.body)) {
-      return res
-        .status(415)
-        .json(createErrorResponse(415, "unsupported content type"));
+    const contentType = req.get("Content-Type");
+    const data = req.body; // Buffer (because express.raw)
+
+    // Validate content type
+    if (!contentType) {
+      return res.status(400).json({
+        status: "error",
+        message: "Missing Content-Type header",
+      });
     }
 
-    const { type } = contentType.parse(req.headers["content-type"]);
-    const baseType = type.split(";")[0].trim();
-
-    if (!Fragment.isSupportedType(baseType)) {
-      return res.status(415).json(createErrorResponse(415, "unsupported type"));
+    // Validate body
+    if (!data || !Buffer.isBuffer(data) || data.length === 0) {
+      return res.status(400).json({
+        status: "error",
+        message: "No data provided",
+      });
     }
 
-    const ownerId = req.user.id;
+    // Create fragment
+    const fragment = new Fragment({
+      ownerId: req.user, // SHA256 hex string
+      type: contentType,
+      size: data.length,
+    });
 
-    const frag = new Fragment({ ownerId, type: baseType });
-    await frag.setData(req.body);
+    // Save data
+    await fragment.setData(data);
 
-    const host = req.headers.host;
-    const location = `http://${host}/v1/fragments/${frag.id}`;
-    res.setHeader("Location", location);
+    // Location header for tests
+    const location = `${req.protocol}://${req.get("host")}/v1/fragments/${fragment.id}`;
 
-    res.status(201).json(
-      createSuccessResponse({
-        fragment: {
-          id: frag.id,
-          ownerId: frag.ownerId,
-          type: frag.type,
-          size: frag.size,
-          created: frag.created,
-          updated: frag.updated,
-        },
-      })
-    );
+    res.status(201).set("Location", location).json({
+      status: "ok",
+      fragment,
+    });
   } catch (err) {
     console.error("POST /v1/fragments error:", err);
-    res.status(500).json(createErrorResponse(500, "server error"));
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
   }
 });
 

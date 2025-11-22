@@ -1,6 +1,10 @@
 // src/model/data/index.js
 
-// Determine which backend to use
+// If the environment sets an AWS Region, we'll use AWS backend
+// services (S3, DynamoDB); otherwise, we'll use an in-memory db.
+module.exports = process.env.AWS_REGION
+  ? require("./aws")
+  : require("./memory"); // Determine which backend to use
 const backend =
   process.env.STORAGE_BACKEND || (process.env.AWS_REGION ? "aws" : "memory");
 
@@ -18,7 +22,7 @@ switch (backend) {
     break;
 
   case "aws":
-    console.log("✅ Using AWS backend (not yet implemented)");
+    console.log("✅ Using AWS backend");
     module.exports = require("./aws");
     break;
 

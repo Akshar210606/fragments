@@ -4,7 +4,7 @@ const { Fragment } = require("../../model/fragment");
 
 router.get("/:id", async (req, res) => {
   try {
-    const fragment = await Fragment.byId(req.user.id, req.params.id);
+    const fragment = await Fragment.byId(req.user, req.params.id);
     const data = await fragment.getData();
 
     res.setHeader("Content-Type", fragment.type);

@@ -5,18 +5,16 @@
   "author": "Aksharkumar Anilkumar Patel",
   "license": "ISC",
   "main": "src/index.js",
-"scripts": {
-  "start": "node src/index.js",
-  "dev": "cross-env LOG_LEVEL=debug nodemon src/index.js --watch src",
-  "debug": "cross-env LOG_LEVEL=debug nodemon --inspect=0.0.0.0:9229 src/index.js --watch src",
-  "lint": "eslint \"./src/**/*.js\" \"tests/**/*.js\"",
-  "test": "cross-env dotenv_config_path=env.jest node -r dotenv/config ./node_modules/jest/bin/jest.js --runInBand -c jest.config.js",
-  "test:watch": "cross-env dotenv_config_path=env.jest node -r dotenv/config ./node_modules/jest/bin/jest.js --runInBand --watch -c jest.config.js",
-  "coverage": "cross-env dotenv_config_path=env.jest node -r dotenv/config ./node_modules/jest/bin/jest.js --runInBand --coverage -c jest.config.js",
-
-  "test:integration": "hurl --test --glob \"tests/integration/**/*.hurl\""
-},
-
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "cross-env LOG_LEVEL=debug nodemon src/index.js --watch src",
+    "debug": "cross-env LOG_LEVEL=debug nodemon --inspect=0.0.0.0:9229 src/index.js --watch src",
+    "lint": "eslint \"./src/**/*.js\" \"tests/**/*.js\"",
+    "test": "cross-env dotenv_config_path=env.jest node -r dotenv/config ./node_modules/jest/bin/jest.js --runInBand -c jest.config.js",
+    "test:watch": "cross-env dotenv_config_path=env.jest node -r dotenv/config ./node_modules/jest/bin/jest.js --runInBand --watch -c jest.config.js",
+    "coverage": "cross-env dotenv_config_path=env.jest node -r dotenv/config ./node_modules/jest/bin/jest.js --runInBand --coverage -c jest.config.js",
+    "test:integration": "hurl --test --glob \"tests/integration/**/*.hurl\""
+  },
   "devDependencies": {
     "@orangeopensource/hurl": "^7.0.0",
     "cross-env": "^10.1.0",
@@ -30,6 +28,7 @@
     "supertest": "^7.0.0"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.934.0",
     "aws-jwt-verify": "^5.1.1",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",

@@ -1,22 +1,24 @@
-// src/auth/index.js
+const crypto = require("crypto");
 const passport = require("passport");
-const authorize = require("./auth-middleware");
+const basic = require("./basic-auth");
 
-const STRATEGY = (process.env.AUTH_STRATEGY || "basic").toLowerCase();
-let strategyModule;
+// Register strategy
+passport.use(basic.name, basic.strategy);
 
-if (STRATEGY === "cognito") {
-  console.log("✅ Using Cognito authentication strategy");
-  strategyModule = require("./cognito"); // must export { name, strategy }
-} else {
-  console.log("✅ Using Basic authentication strategy");
-  strategyModule = require("./basic-auth"); // must export { name, strategy }
+function authenticate(req, res, next) {
+  passport.authenticate("basic", { session: false }, (err, user) => {
+    if (err || !user) {
+      return res.status(401).json({
+        status: "error",
+        message: "Unauthorized",
+      });
+    }
+
+    // Convert username/email to SHA256 hex (required ownerId format)
+    req.user = crypto.createHash("sha256").update(user.username).digest("hex");
+
+    next();
+  })(req, res, next);
 }
 
-// Register strategy with its name
-passport.use(strategyModule.name, strategyModule.strategy);
-
-// Export the authenticate() middleware using our custom wrapper
-module.exports = {
-  authenticate: authorize(strategyModule.name),
-};
+module.exports = { authenticate };
