@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
       status: "error",
       error: { code: 415, message: "conversion not supported" },
     });
-  } catch (err) {
+  } catch {
     res.status(404).json({
       status: "error",
       error: { code: 404, message: "not found" },

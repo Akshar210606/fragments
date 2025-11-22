@@ -9,7 +9,7 @@ router.get("/:id", async (req, res) => {
 
     res.setHeader("Content-Type", fragment.type);
     res.status(200).send(data);
-  } catch (err) {
+  } catch {
     res.status(404).json({
       status: "error",
       error: { code: 404, message: "not found" },

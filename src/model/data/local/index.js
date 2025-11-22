@@ -50,7 +50,12 @@ async function listFragments(ownerId) {
 
 async function deleteFragment(ownerId, id) {
   const dir = userDir(ownerId);
-  fs.rmSync(dir, { recursive: true, force: true });
+  const dataPath = path.join(dir, `${id}.data`);
+  const metaPath = path.join(dir, `${id}.json`);
+  
+  // Delete both data and metadata files
+  if (fs.existsSync(dataPath)) fs.unlinkSync(dataPath);
+  if (fs.existsSync(metaPath)) fs.unlinkSync(metaPath);
 }
 
 module.exports = {
