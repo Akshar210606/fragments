@@ -58,7 +58,7 @@ jobs:
             LOG_LEVEL=info
             NODE_ENV=production
             AWS_REGION=us-east-1
-            AWS_S3_BUCKET_NAME=fragments
+            AWS_S3_BUCKET_NAME=aapatel67-fragments
             PORT=8080
             HTPASSWD_FILE=tests/.htpasswd
 

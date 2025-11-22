@@ -24,7 +24,7 @@
         },
         {
           "name": "AWS_S3_BUCKET_NAME",
-          "value": "fragments"
+          "value": "aapatel67-fragments"
         },
         {
           "name": "LOG_LEVEL",
