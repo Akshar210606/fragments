@@ -35,13 +35,7 @@ app.get(["/", "/health", "/v1/health"], (req, res) => {
 app.use("/v1", authenticate, (req, res, next) => {
   // Raw body ONLY for authenticated routes
   express.raw({
-    type: [
-      "text/plain",
-      "text/markdown",
-      "application/json",
-      "application/octet-stream",
-      "image/*",
-    ],
+    type: "*/*", // Accept all content types, validation happens in routes
     limit: "10mb",
   })(req, res, next);
 });

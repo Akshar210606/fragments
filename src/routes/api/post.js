@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Fragment } = require("../../model/fragment");
+const { createErrorResponse } = require("../../response");
 
 router.post("/", async (req, res) => {
   try {
@@ -9,26 +10,17 @@ router.post("/", async (req, res) => {
 
     // Validate content type
     if (!contentType) {
-      return res.status(400).json({
-        status: "error",
-        message: "Missing Content-Type header",
-      });
+      return res.status(400).json(createErrorResponse(400, "Missing Content-Type header"));
     }
 
     // Check if content type is supported
     if (!Fragment.isSupportedType(contentType)) {
-      return res.status(415).json({
-        status: "error",
-        message: "Unsupported content type",
-      });
+      return res.status(415).json(createErrorResponse(415, "Unsupported content type"));
     }
 
     // Validate body
     if (!data || !Buffer.isBuffer(data) || data.length === 0) {
-      return res.status(400).json({
-        status: "error",
-        message: "No data provided",
-      });
+      return res.status(400).json(createErrorResponse(400, "No data provided"));
     }
 
     // Create fragment
@@ -50,10 +42,7 @@ router.post("/", async (req, res) => {
     });
   } catch (err) {
     console.error("POST /v1/fragments error:", err);
-    res.status(500).json({
-      status: "error",
-      message: err.message,
-    });
+    res.status(500).json(createErrorResponse(500, err.message));
   }
 });
 
