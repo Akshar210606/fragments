@@ -18,8 +18,13 @@ app.use(passport.initialize());
 
 // Public routes BEFORE raw parser
 app.get(["/", "/health", "/v1/health"], (req, res) => {
+  const { author, version } = require("../package.json");
+  res.setHeader("Cache-Control", "no-cache");
   res.json({
     status: "ok",
+    author,
+    githubUrl: "https://github.com/Akshar210606/fragments",
+    version,
     service: "fragments",
     build: process.env.BUILD_SHA || "unknown",
     time: new Date().toISOString(),

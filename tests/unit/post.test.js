@@ -12,7 +12,7 @@ describe("POST /v1/fragments", () => {
     expect(res.status).toBe(201);
     expect(res.headers).toHaveProperty("location");
     expect(res.body).toHaveProperty("status", "ok");
-    expect(res.body).toHaveProperty("id");
+    expect(res.body.fragment).toHaveProperty("id");
   });
 
   test("returns 415 for unsupported content type", async () => {

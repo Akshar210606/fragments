@@ -15,6 +15,14 @@ router.post("/", async (req, res) => {
       });
     }
 
+    // Check if content type is supported
+    if (!Fragment.isSupportedType(contentType)) {
+      return res.status(415).json({
+        status: "error",
+        message: "Unsupported content type",
+      });
+    }
+
     // Validate body
     if (!data || !Buffer.isBuffer(data) || data.length === 0) {
       return res.status(400).json({
