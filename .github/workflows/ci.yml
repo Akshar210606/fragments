@@ -24,8 +24,33 @@ jobs:
       - name: Run Tests with Coverage
         run: npm run coverage
 
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install node dependencies
+        run: npm install
+
+      - name: Build Containers
+        run: docker compose up -d
+
+      - name: Setup Local AWS Resources
+        run: chmod +x ./scripts/local-aws-setup.sh && ./scripts/local-aws-setup.sh
+
+      - name: Run Hurl Tests
+        run: npm run test:integration
+
   docker:
-    needs: test
+    needs: [test, integration-tests]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
 

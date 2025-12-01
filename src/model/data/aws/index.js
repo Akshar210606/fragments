@@ -1,34 +1,64 @@
-// XXX: temporary use of memory-db until we add DynamoDB
-const MemoryDB = require("../memory/memory-db");
-
-// Create two in-memory databases: one for fragment metadata and the other for raw data
-const metadata = new MemoryDB();
-
-const s3Client = require("./s3Client");
+const s3Client = require('./s3Client');
+const ddbDocClient = require('./ddbDocClient');
 const {
   PutObjectCommand,
   GetObjectCommand,
   DeleteObjectCommand,
-} = require("@aws-sdk/client-s3");
+} = require('@aws-sdk/client-s3');
+const { PutCommand, GetCommand, QueryCommand, DeleteCommand } = require('@aws-sdk/lib-dynamodb');
+
+const logger = require('../../../logger');
+
+logger.info('AWS Data Module Loaded');
 
 // ------------------------------------------------------------
-// Write fragment metadata (unchanged - still memory DB)
+// Write fragment metadata to DynamoDB
 // ------------------------------------------------------------
 function writeFragment(fragment) {
-  const serialized = JSON.stringify(fragment);
-  return metadata.put(fragment.ownerId, fragment.id, serialized);
+  // Configure our PUT params, with the name of the table and item (attributes and keys)
+  const params = {
+    TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
+    Item: fragment,
+  };
+
+  // Create a PUT command to send to DynamoDB
+  const command = new PutCommand(params);
+
+  try {
+    return ddbDocClient.send(command);
+  } catch (err) {
+    logger.warn({ err, params, fragment }, 'error writing fragment to DynamoDB');
+    throw err;
+  }
 }
 
 // ------------------------------------------------------------
-// Read fragment metadata (unchanged)
+// Read fragment metadata from DynamoDB
 // ------------------------------------------------------------
 async function readFragment(ownerId, id) {
-  const serialized = await metadata.get(ownerId, id);
-  return typeof serialized === "string" ? JSON.parse(serialized) : serialized;
+  // Configure our GET params, with the name of the table and key (partition key + sort key)
+  const params = {
+    TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
+    Key: { ownerId, id },
+  };
+
+  // Create a GET command to send to DynamoDB
+  const command = new GetCommand(params);
+
+  try {
+    // Wait for the data to come back from AWS
+    const data = await ddbDocClient.send(command);
+    // We may or may not get back any data (e.g., no item found for the given key).
+    // If we get back an item (fragment), we'll return it.  Otherwise we'll return `undefined`.
+    return data?.Item;
+  } catch (err) {
+    logger.warn({ err, params }, 'error reading fragment from DynamoDB');
+    throw err;
+  }
 }
 
 // ------------------------------------------------------------
-// Write fragment DATA to S3 (NEW REPLACEMENT)
+// Write fragment DATA to S3
 // ------------------------------------------------------------
 async function writeFragmentData(ownerId, id, data) {
   const params = {
@@ -43,8 +73,8 @@ async function writeFragmentData(ownerId, id, data) {
     await s3Client.send(command);
   } catch (err) {
     const { Bucket, Key } = params;
-    console.error({ err, Bucket, Key }, "Error uploading fragment data to S3");
-    throw new Error("unable to upload fragment data");
+    logger.error({ err, Bucket, Key }, 'Error uploading fragment data to S3');
+    throw new Error('unable to upload fragment data');
   }
 }
 
@@ -54,13 +84,13 @@ async function writeFragmentData(ownerId, id, data) {
 const streamToBuffer = (stream) =>
   new Promise((resolve, reject) => {
     const chunks = [];
-    stream.on("data", (chunk) => chunks.push(chunk));
-    stream.on("error", reject);
-    stream.on("end", () => resolve(Buffer.concat(chunks)));
+    stream.on('data', (chunk) => chunks.push(chunk));
+    stream.on('error', reject);
+    stream.on('end', () => resolve(Buffer.concat(chunks)));
   });
 
 // ------------------------------------------------------------
-// Read fragment DATA from S3 (NEW REPLACEMENT)
+// Read fragment DATA from S3
 // ------------------------------------------------------------
 async function readFragmentData(ownerId, id) {
   const params = {
@@ -75,49 +105,86 @@ async function readFragmentData(ownerId, id) {
     return streamToBuffer(data.Body); // returns Buffer
   } catch (err) {
     const { Bucket, Key } = params;
-    console.error(
-      { err, Bucket, Key },
-      "Error streaming fragment data from S3"
-    );
-    throw new Error("unable to read fragment data");
+    logger.error({ err, Bucket, Key }, 'Error streaming fragment data from S3');
+    throw new Error('unable to read fragment data');
   }
 }
 
 // ------------------------------------------------------------
-// List fragment IDs or full metadata
+// List fragment IDs or full metadata from DynamoDB
 // ------------------------------------------------------------
 async function listFragments(ownerId, expand = false) {
-  const fragments = await metadata.query(ownerId);
+  // Configure our QUERY params, with the name of the table and the query expression
+  const params = {
+    TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
+    // Specify that we want to get all items where the ownerId is equal to the
+    // `:ownerId` that we'll define below in the ExpressionAttributeValues.
+    KeyConditionExpression: 'ownerId = :ownerId',
+    // Use the `ownerId` value to do the query
+    ExpressionAttributeValues: {
+      ':ownerId': ownerId,
+    },
+  };
 
-  if (expand || !fragments) {
-    return fragments;
+  // Limit to only `id` if we aren't supposed to expand. Without doing this
+  // we'll get back every attribute.  The projection expression defines a list
+  // of attributes to return, see:
+  // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ProjectionExpressions.html
+  if (!expand) {
+    params.ProjectionExpression = 'id';
   }
 
-  return fragments.map((fragment) => JSON.parse(fragment).id);
+  // Create a QUERY command to send to DynamoDB
+  const command = new QueryCommand(params);
+
+  try {
+    // Wait for the data to come back from AWS
+    const data = await ddbDocClient.send(command);
+
+    // If we haven't expanded to include all attributes, remap this array from
+    // [ {"id":"b9e7a264-630f-436d-a785-27f30233faea"}, {"id":"dad25b07-8cd6-498b-9aaf-46d358ea97fe"} ,... ] to
+    // [ "b9e7a264-630f-436d-a785-27f30233faea", "dad25b07-8cd6-498b-9aaf-46d358ea97fe", ... ]
+    return !expand ? data?.Items.map((item) => item.id) : data?.Items;
+  } catch (err) {
+    logger.error({ err, params }, 'error getting all fragments for user from DynamoDB');
+    throw err;
+  }
 }
 
 // ------------------------------------------------------------
-// Delete fragment (metadata + S3 object)
+// Delete fragment (metadata from DynamoDB + data from S3)
 // ------------------------------------------------------------
 async function deleteFragment(ownerId, id) {
-  const params = {
+  // First, delete from DynamoDB
+  const ddbParams = {
+    TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
+    Key: { ownerId, id },
+  };
+
+  const ddbCommand = new DeleteCommand(ddbParams);
+
+  try {
+    await ddbDocClient.send(ddbCommand);
+  } catch (err) {
+    logger.error({ err, params: ddbParams }, 'Error deleting fragment metadata from DynamoDB');
+    throw new Error('unable to delete fragment metadata');
+  }
+
+  // Then, delete from S3
+  const s3Params = {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
     Key: `${ownerId}/${id}`,
   };
 
-  const command = new DeleteObjectCommand(params);
+  const s3Command = new DeleteObjectCommand(s3Params);
 
   try {
-    // 1. Delete S3 data
-    await s3Client.send(command);
+    await s3Client.send(s3Command);
   } catch (err) {
-    const { Bucket, Key } = params;
-    console.error({ err, Bucket, Key }, "Error deleting fragment data from S3");
-    throw new Error("unable to delete fragment data");
+    const { Bucket, Key } = s3Params;
+    logger.error({ err, Bucket, Key }, 'Error deleting fragment data from S3');
+    throw new Error('unable to delete fragment data');
   }
-
-  // 2. Delete metadata from MemoryDB
-  return metadata.del(ownerId, id);
 }
 
 // ------------------------------------------------------------

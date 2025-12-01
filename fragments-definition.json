@@ -27,6 +27,10 @@
           "value": "aapatel67-fragments"
         },
         {
+          "name": "AWS_DYNAMODB_TABLE_NAME",
+          "value": "fragments"
+        },
+        {
           "name": "LOG_LEVEL",
           "value": "info"
         },
