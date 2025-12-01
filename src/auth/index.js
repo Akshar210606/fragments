@@ -1,24 +1,20 @@
-const crypto = require("crypto");
 const passport = require("passport");
 const basic = require("./basic-auth");
+const cognito = require("./cognito");
+const logger = require("../logger");
 
-// Register strategy
+// Register strategies
 passport.use(basic.name, basic.strategy);
+passport.use(cognito.name, cognito.strategy);
 
-function authenticate(req, res, next) {
-  passport.authenticate("basic", { session: false }, (err, user) => {
-    if (err || !user) {
-      return res.status(401).json({
-        status: "error",
-        message: "Unauthorized",
-      });
-    }
+module.exports.authenticate = (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-    // Convert username/email to SHA256 hex (required ownerId format)
-    req.user = crypto.createHash("sha256").update(user.username).digest("hex");
-
-    next();
-  })(req, res, next);
-}
-
-module.exports = { authenticate };
+  // If we have an Authorization header with 'Bearer', use Cognito
+  if (process.env.AWS_COGNITO_POOL_ID && authHeader && authHeader.startsWith("Bearer ")) {
+    passport.authenticate(cognito.name, { session: false })(req, res, next);
+  } else {
+    // Otherwise, use Basic Auth
+    passport.authenticate(basic.name, { session: false })(req, res, next);
+  }
+};

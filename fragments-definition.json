@@ -45,6 +45,14 @@
         {
           "name": "HTPASSWD_FILE",
           "value": "tests/.htpasswd"
+        },
+        {
+          "name": "AWS_COGNITO_POOL_ID",
+          "value": "us-east-1_oV4F5M5t2"
+        },
+        {
+          "name": "AWS_COGNITO_CLIENT_ID",
+          "value": "7tugjqis2m9jqalm2gmmkgjrr1"
         }
       ],
       "logConfiguration": {
