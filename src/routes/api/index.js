@@ -5,6 +5,7 @@ router.use("/fragments", require("./post"));
 router.use("/fragments", require("./get"));
 router.get("/fragments/:id/info", require("./get-info"));
 router.use("/fragments", require("./get-id"));
+router.put("/fragments/:id", require("./put"));
 router.use("/fragments", require("./delete"));
 
 module.exports = router;

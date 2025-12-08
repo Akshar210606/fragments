@@ -1,0 +1,21 @@
+﻿{
+  "cluster": "fragments",
+  "serviceName": "fragments",
+  "taskDefinition": "fragments",
+  "desiredCount": 1,
+  "launchType": "FARGATE",
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "subnets": ["subnet-06a684c11c141b95f", "subnet-060b81d6b9fa41351"],
+      "securityGroups": ["sg-05cffecdf4ca1c03e"],
+      "assignPublicIp": "ENABLED"
+    }
+  },
+  "loadBalancers": [
+    {
+      "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:975049982619:targetgroup/fragments-tg/29bdb693ea3291f7",
+      "containerName": "fragments",
+      "containerPort": 8080
+    }
+  ]
+}
