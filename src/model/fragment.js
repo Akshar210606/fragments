@@ -133,7 +133,11 @@ class Fragment {
 
       const baseType = type.split(";")[0].trim();
 
-      return baseType === "application/json" || baseType.startsWith("text/");
+      return (
+        baseType === "application/json" ||
+        baseType.startsWith("text/") ||
+        baseType.startsWith("image/")
+      );
     } catch {
       return false;
     }
