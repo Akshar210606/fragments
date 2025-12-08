@@ -5,7 +5,8 @@ const { Fragment } = require("../../model/fragment");
 router.get("/", async (req, res) => {
   try {
     const expand = req.query.expand === "1";
-    const fragments = await Fragment.byUser(req.user, expand);
+    const type = req.query.type;
+    const fragments = await Fragment.byUser(req.user, expand, type);
 
     res.status(200).json({
       status: "ok",

@@ -39,8 +39,8 @@ class Fragment {
   /**
    * Get all fragments (id or full) for the given user
    */
-  static async byUser(ownerId, expand = false) {
-    const fragments = await listFragments(ownerId, expand);
+  static async byUser(ownerId, expand = false, type) {
+    const fragments = await listFragments(ownerId, expand, type);
 
     if (expand) {
       return fragments.map((serialized) => {

@@ -113,7 +113,7 @@ async function readFragmentData(ownerId, id) {
 // ------------------------------------------------------------
 // List fragment IDs or full metadata from DynamoDB
 // ------------------------------------------------------------
-async function listFragments(ownerId, expand = false) {
+async function listFragments(ownerId, expand = false, type) {
   // Configure our QUERY params, with the name of the table and the query expression
   const params = {
     TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
@@ -125,6 +125,15 @@ async function listFragments(ownerId, expand = false) {
       ':ownerId': ownerId,
     },
   };
+
+  // If a type is provided, filter by it
+  if (type) {
+    params.FilterExpression = '#type = :type';
+    params.ExpressionAttributeNames = {
+      '#type': 'type',
+    };
+    params.ExpressionAttributeValues[':type'] = type;
+  }
 
   // Limit to only `id` if we aren't supposed to expand. Without doing this
   // we'll get back every attribute.  The projection expression defines a list

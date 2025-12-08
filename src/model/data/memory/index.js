@@ -32,16 +32,29 @@ function readFragmentData(ownerId, id) {
 }
 
 // Get a list of fragment ids/objects for the given user from memory db. Returns a Promise
-async function listFragments(ownerId, expand = false) {
+async function listFragments(ownerId, expand = false, type) {
   const fragments = await metadata.query(ownerId);
 
-  // If we don't get anything back, or are supposed to give expanded fragments, return
-  if (expand || !fragments) {
-    return fragments;
+  // If we don't get anything back, return
+  if (!fragments) {
+    return [];
   }
 
-  // Otherwise, map to only send back the ids
-  return fragments.map((fragment) => JSON.parse(fragment).id);
+  // Parse fragments first
+  let result = fragments.map((fragment) => JSON.parse(fragment));
+
+  // Filter by type if provided
+  if (type) {
+    result = result.filter((fragment) => fragment.type.includes(type));
+  }
+
+  // If expand is true, return full objects
+  if (expand) {
+    return result;
+  }
+
+  // Otherwise, return only ids
+  return result.map((fragment) => fragment.id);
 }
 
 // Delete a fragment's metadata and data from memory db. Returns a Promise
